@@ -32,9 +32,16 @@ Plug 'junegunn/fzf.vim'
 " Plug 'puremourning/vimspector'
 Plug 'gioele/vim-autoswap'
 
+Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
+Plug 'dense-analysis/ale'         " For c-sharp
+
 call plug#end()
 
 filetype on
+
+let g:OmniSharp_server_stdio = 1  " For c-sharp, using Ctrl-x o to auto-complete
+
+colorscheme jellybeans
 
 " Sets how many lines of history VIM has to remember
 set history=500
@@ -43,8 +50,8 @@ set history=500
 set autoread
 set autowrite
 
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
+" Set 4 lines to the cursor - when moving vertically using j/k
+set so=4
 
 let $LANG='en'
 set langmenu=en
@@ -79,7 +86,7 @@ set tags=tags
 set showcmd
 set undofile     " Persistent undo
 set number
-" set relativenumber
+set relativenumber
 set splitright
 set splitbelow
 
@@ -119,10 +126,10 @@ hi link illuminatedWord Visual
 " Enable syntax highlighting
 syntax enable
 
-" Mark lines going past 80 characters
+" Mark lines going past 88 characters
 augroup vimrc_autocmds
   autocmd BufEnter *.py highlight OverLength ctermbg=darkgrey guibg=#111111
-  autocmd BufEnter *.py match OverLength /\%80v.*/
+  autocmd BufEnter *.py match OverLength /\%88v.*/
 augroup END
 
 autocmd BufWritePost *.py execute ':Black'
@@ -144,14 +151,13 @@ set nobackup
 set backupcopy=auto
 " patch required to honor double slash at end
 if has("patch-8.1.0251")
-	" consolidate the writebackups -- not a big
-		" deal either way, since they usually get deleted
-			set backupdir^=~/.vim/backup//
-			end
+    " consolidate the writebackups -- not a big
+    " deal either way, since they usually get deleted
+    set backupdir^=~/.vim/backup//
+end
 " persist the undo tree for each file
 set undofile
 set undodir^=~/.vim/undo//
-
 
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -159,7 +165,6 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 noremap <PageUp> <Nop>
 noremap <PageDown> <Nop>
-
 
 nnoremap <Left> :bprevious<CR>
 nnoremap <Right> :bnext<CR>
@@ -196,42 +201,29 @@ nnoremap <leader>sop :source %<cr>
 " nnoremap <leader>h :set hlsearch!<cr>
 nnoremap <leader>h :nohlsearch<cr>
 nnoremap <leader>r :%s/<C-r><C-w>//g<Left><Left>
-nnoremap <leader>- :Lex %:h<cr>
 nnoremap <leader>b :ls<CR>:b<Space>
 nnoremap <leader>v :vert sfind
 nnoremap <leader>gg :vimgrep // **/*.py \| clist \| call feedkeys(":cc ")<C-R>=setcmdpos(10)<CR><BS>
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 
-inoremap jh <Esc>
+nnoremap <C-l> <C-i>
 
-" " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
-nnoremap  <leader>yy  "+yy   " Necessary?
+" " resize window CTRL+(h|j|k|l)
+" noremap <C-j> :resize +1<CR>
+" noremap <C-k> :resize -1<CR>
+" noremap <C-h> :vertical resize -1<CR>
+" noremap <C-l> :vertical resize +1<CR>
 
-" " Paste from clipboard
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
+" nmap <silent><Leader>f <Esc>:Pytest file<CR>
+" nmap <silent><Leader>c <Esc>:Pytest class<CR>
+" nmap <silent><Leader>m <Esc>:Pytest method<CR>
+" nmap <F8> :TagbarToggle<CR>
 
-" resize window CTRL+(h|j|k|l)
-noremap <C-j> :resize +1<CR>
-noremap <C-k> :resize -1<CR>
-noremap <C-h> :vertical resize -1<CR>
-noremap <C-l> :vertical resize +1<CR>
-
-nmap <silent><Leader>f <Esc>:Pytest file<CR>
-nmap <silent><Leader>c <Esc>:Pytest class<CR>
-nmap <silent><Leader>m <Esc>:Pytest method<CR>
-nmap <F8> :TagbarToggle<CR>
-
-let g:netrw_winsize = 28                " absolute width of netrw window
-let g:netrw_banner = 0                  " do not display info on the top of window
-let g:netrw_liststyle = 3               " tree-view
-let g:netrw_sort_sequence = '[\/]$,*'   " sort is affecting only: directories on the top, files below
-let g:netrw_browse_split = 4            " use the previous window to open file
+" let g:netrw_winsize = 28                " absolute width of netrw window
+" let g:netrw_banner = 0                  " do not display info on the top of window
+" let g:netrw_liststyle = 3               " tree-view
+" let g:netrw_sort_sequence = '[\/]$,*'   " sort is affecting only: directories on the top, files below
+" let g:netrw_browse_split = 4            " use the previous window to open file
 
 let g:gundo_prefer_python3 = 1
 
@@ -249,5 +241,11 @@ if has('nvim')
 endif
 
 abbreviate bp import pdb; pdb.set_trace()
+
+" :vertical ball
+" :ball
+
+let g:airline_section_x = ''
+let g:airline_section_z = ''
 
 source ~/.cocnvimrc
