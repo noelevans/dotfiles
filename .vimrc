@@ -133,6 +133,7 @@ augroup vimrc_autocmds
 augroup END
 
 autocmd BufWritePost *.py execute ':Black'
+" autocmd BufWritePost *.py execute ':OR | !autoflake --in-place % | Black'
 
 " Backup settings from
 " https://begriffs.com/posts/2019-07-19-history-use-vim.html?hn=3
