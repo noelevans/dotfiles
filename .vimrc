@@ -31,6 +31,7 @@ Plug 'junegunn/fzf.vim'
 " Plug 'takac/vim-hardtime'
 " Plug 'puremourning/vimspector'
 Plug 'gioele/vim-autoswap'
+Plug 'mhinz/vim-grepper'
 
 Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
 Plug 'dense-analysis/ale'         " For c-sharp
@@ -204,7 +205,8 @@ nnoremap <leader>h :nohlsearch<cr>
 nnoremap <leader>r :%s/<C-r><C-w>//g<Left><Left>
 nnoremap <leader>b :ls<CR>:b<Space>
 nnoremap <leader>v :vert sfind
-nnoremap <leader>gg :vimgrep // **/*.py \| clist \| call feedkeys(":cc ")<C-R>=setcmdpos(10)<CR><BS>
+" nnoremap <leader>gg :vimgrep // **/*.py \| clist \| call feedkeys(":cc ")<C-R>=setcmdpos(10)<CR><BS>
+nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 
 nnoremap <C-l> <C-i>
