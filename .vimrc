@@ -32,6 +32,7 @@ Plug 'junegunn/fzf.vim'
 " Plug 'puremourning/vimspector'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
+Plug 'tell-k/vim-autoflake'
 
 Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
 Plug 'dense-analysis/ale'         " For c-sharp
@@ -243,12 +244,13 @@ if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif
 
-abbreviate bp import pdb; pdb.set_trace()
+abbreviate breakpoint import pdb; pdb.set_trace()
 
 " :vertical ball
 " :ball
 
 let g:airline_section_x = ''
 let g:airline_section_z = ''
+let g:autoflake_remove_all_unused_imports = 1
 
 source ~/.cocnvimrc
