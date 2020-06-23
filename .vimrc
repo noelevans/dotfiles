@@ -182,6 +182,11 @@ let mapleader="\<Space>"
 " (useful for handling the permission-denied error)
 "command W w !sudo tee % > /dev/null
 
+" The echo comamnd tells you the id of the terminal running in nvim
+" You can then use the id to call something like the restart command below
+" :echo b:terminal_job_id
+:command! Restart call jobsend(1, "\<C-c>npm run server\<CR>")
+
 " Correct spelling error on this line with first dictionary choice
 "nnoremap <leader>sp :normal! mf[s1z=`f<cr>
 " or...
@@ -196,7 +201,7 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 nnoremap <leader>wspace :call TrimWhitespace()<cr>
-
+ 
 " Toggle spell checking
 map <leader>ss :setlocal spell!<cr>
 
@@ -211,7 +216,7 @@ nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 
 nnoremap <C-l> <C-i>
-
+ 
 " " resize window CTRL+(h|j|k|l)
 " noremap <C-j> :resize +1<CR>
 " noremap <C-k> :resize -1<CR>
