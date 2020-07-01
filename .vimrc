@@ -113,6 +113,7 @@ set tabstop=4
 set ai "Auto indent
 set wrap "Wrap lines
 set clipboard+=unnamedplus
+set cursorline
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
