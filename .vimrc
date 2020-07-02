@@ -175,7 +175,10 @@ nnoremap <Right> :bnext<CR>
 nnoremap <C-Left> :cprevious<CR>
 nnoremap <C-Right> :cnext<CR>
 
-imap hh <Esc>
+augroup LuaHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+augroup END
 
 let mapleader="\<Space>"
 
