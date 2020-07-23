@@ -219,6 +219,10 @@ nnoremap <leader>v :vert sfind
 nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 
+nmap <leader>gd :Gvdiffsplit  " (!)
+nmap <leader>gh :diffget //3<CR>
+nmap <leader>gu :diffget //2<CR>
+
 nnoremap <C-l> <C-i>
  
 " " resize window CTRL+(h|j|k|l)
