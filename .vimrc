@@ -1,5 +1,5 @@
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -33,6 +33,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
+Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
 
 Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
 Plug 'dense-analysis/ale'         " For c-sharp
@@ -257,7 +258,7 @@ if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif
 
-abbreviate breakpoint import pdb; pdb.set_trace()
+iabbrev pdb import pdb<CR><CR>pdb.set_trace()
 
 " :vertical ball
 " :ball
@@ -266,4 +267,4 @@ let g:airline_section_x = ''
 let g:airline_section_z = ''
 let g:autoflake_remove_all_unused_imports = 1
 
-source ~/.cocnvimrc
+" source ~/.cocnvimrc
