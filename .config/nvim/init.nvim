@@ -259,6 +259,7 @@ if has('nvim')
 endif
 
 iabbrev pdb import pdb<CR><CR>pdb.set_trace()
+iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
 
 " :vertical ball
 " :ball
