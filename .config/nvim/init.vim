@@ -35,14 +35,14 @@ Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
 Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
 
-Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
-Plug 'dense-analysis/ale'         " For c-sharp
+" Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
+" Plug 'dense-analysis/ale'         " For c-sharp
 
 call plug#end()
 
 filetype on
 
-let g:OmniSharp_server_stdio = 1  " For c-sharp, using Ctrl-x o to auto-complete
+" let g:OmniSharp_server_stdio = 1  " For c-sharp, using Ctrl-x o to auto-complete
 
 colorscheme jellybeans
 
@@ -220,12 +220,24 @@ nnoremap <leader>v :vert sfind
 nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 
-nmap <leader>gd :Gvdiffsplit  " (!)
+" nmap <leader>gd :Gvdiffsplit  " (!)
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
 
 nnoremap <C-l> <C-i>
- 
+inoremap <C-Space> <C-x><C-o>
+inoremap <C-@> <C-Space>
+
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
 " " resize window CTRL+(h|j|k|l)
 " noremap <C-j> :resize +1<CR>
 " noremap <C-k> :resize -1<CR>
