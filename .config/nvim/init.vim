@@ -164,17 +164,10 @@ end
 set undofile
 set undodir^=~/.vim/undo//
 
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-noremap <PageUp> <Nop>
-noremap <PageDown> <Nop>
-
-nnoremap <Left> :bprevious<CR>
-nnoremap <Right> :bnext<CR>
-nnoremap <C-Left> :cprevious<CR>
-nnoremap <C-Right> :cnext<CR>
+nnoremap <Left> <c-w>h
+nnoremap <Right> <c-w>l
+nnoremap <Up> <c-w>k
+nnoremap <Down> <c-w>j
 
 augroup LuaHighlight
     autocmd!
