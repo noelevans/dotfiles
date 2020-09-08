@@ -1,5 +1,5 @@
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -32,15 +32,17 @@ Plug 'junegunn/fzf.vim'
 " Plug 'puremourning/vimspector'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
+Plug 'tell-k/vim-autoflake'
+Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
 
-Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
-Plug 'dense-analysis/ale'         " For c-sharp
+" Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
+" Plug 'dense-analysis/ale'         " For c-sharp
 
 call plug#end()
 
 filetype on
 
-let g:OmniSharp_server_stdio = 1  " For c-sharp, using Ctrl-x o to auto-complete
+" let g:OmniSharp_server_stdio = 1  " For c-sharp, using Ctrl-x o to auto-complete
 
 colorscheme jellybeans
 
@@ -112,6 +114,7 @@ set tabstop=4
 set ai "Auto indent
 set wrap "Wrap lines
 set clipboard+=unnamedplus
+set cursorline
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -161,19 +164,15 @@ end
 set undofile
 set undodir^=~/.vim/undo//
 
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-noremap <PageUp> <Nop>
-noremap <PageDown> <Nop>
+nnoremap <Left> <c-w>h
+nnoremap <Right> <c-w>l
+nnoremap <Up> <c-w>k
+nnoremap <Down> <c-w>j
 
-nnoremap <Left> :bprevious<CR>
-nnoremap <Right> :bnext<CR>
-nnoremap <C-Left> :cprevious<CR>
-nnoremap <C-Right> :cnext<CR>
-
-imap hh <Esc>
+augroup LuaHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+augroup END
 
 let mapleader="\<Space>"
 
@@ -214,8 +213,24 @@ nnoremap <leader>v :vert sfind
 nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 
+" nmap <leader>gd :Gvdiffsplit  " (!)
+nmap <leader>gh :diffget //3<CR>
+nmap <leader>gu :diffget //2<CR>
+
 nnoremap <C-l> <C-i>
- 
+inoremap <C-Space> <C-x><C-o>
+inoremap <C-@> <C-Space>
+
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
 " " resize window CTRL+(h|j|k|l)
 " noremap <C-j> :resize +1<CR>
 " noremap <C-k> :resize -1<CR>
@@ -248,12 +263,14 @@ if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif
 
-abbreviate bp import pdb; pdb.set_trace()
+iabbrev pdb import pdb<CR><CR>pdb.set_trace()
+iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
 
 " :vertical ball
 " :ball
 
 let g:airline_section_x = ''
 let g:airline_section_z = ''
+let g:autoflake_remove_all_unused_imports = 1
 
-source ~/.cocnvimrc
+" source ~/.cocnvimrc
