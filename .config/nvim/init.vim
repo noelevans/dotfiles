@@ -13,19 +13,20 @@ Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
 " Plug 'mhinz/vim-startify'
 Plug 'sjl/gundo.vim'
-Plug 'alfredodeza/pytest.vim'
+" Plug 'alfredodeza/pytest.vim'
 " Plug 'jpalardy/vim-slime'      " Copying code to another tmux pane for repl interaction
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-python'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-python'}
 Plug 'nanotech/jellybeans.vim'
+Plug 'morhetz/gruvbox'
 " Plug 'kalekundert/vim-coiled-snake'
-Plug 'xolox/vim-misc'            " Dependency of vim-session
-Plug 'xolox/vim-session'
+" Plug 'xolox/vim-misc'            " Dependency of vim-session
+" Plug 'xolox/vim-session'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'rrethy/vim-illuminate'
 " Plug 'mileszs/ack.vim'
 " Plug 'liuchengxu/vista.vim'
 " Plug 'majutsushi/tagbar'
-Plug 'psf/black', { 'tag': '19.10b0' }
+" Plug 'psf/black', { 'tag': '19.10b0' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'takac/vim-hardtime'
@@ -34,15 +35,13 @@ Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
 Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
-
-" Plug 'OmniSharp/omnisharp-vim'    " For c-sharp
-" Plug 'dense-analysis/ale'         " For c-sharp
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+" Plug 'nvim-lua/completion-nvim'
 
 call plug#end()
 
 filetype on
-
-" let g:OmniSharp_server_stdio = 1  " For c-sharp, using Ctrl-x o to auto-complete
 
 colorscheme jellybeans
 
@@ -89,9 +88,6 @@ set tags=tags
 set showcmd
 set undofile     " Persistent undo
 set number
-set relativenumber
-set splitright
-set splitbelow
 
 " Allows you to do 'gf' on config which opens config.py
 set suffixesadd=.py
@@ -130,14 +126,13 @@ hi link illuminatedWord Visual
 " Enable syntax highlighting
 syntax enable
 
-" Mark lines going past 88 characters
-augroup vimrc_autocmds
-  autocmd BufEnter *.py highlight OverLength ctermbg=darkgrey guibg=#111111
-  autocmd BufEnter *.py match OverLength /\%88v.*/
-augroup END
+" " Mark lines going past 88 characters
+" augroup vimrc_autocmds
+"   autocmd BufEnter *.py highlight OverLength ctermbg=darkgrey guibg=#111111
+"   autocmd BufEnter *.py match OverLength /\%88v.*/
+" augroup END
 
-autocmd BufWritePost *.py execute ':Black'
-" autocmd BufWritePost *.py execute ':OR | !autoflake --in-place % | Black'
+" autocmd BufWritePost *.py execute ':Black'
 
 " Backup settings from
 " https://begriffs.com/posts/2019-07-19-history-use-vim.html?hn=3
@@ -174,6 +169,25 @@ augroup LuaHighlight
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
 augroup END
 
+
+lua << EOF
+  local nvim_lsp = require'nvim_lsp'
+  -- Disable Diagnostcs globally
+  vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
+EOF
+
+" lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
+lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
+autocmd BufEnter * lua require'completion'.on_attach()
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+" Avoid showing message extra message when using completion
+set shortmess+=c
+" <c-p> to manually trigger completion
+inoremap <silent><expr> <c-p> completion#trigger_completion() 
 let mapleader="\<Space>"
 
 " :W sudo saves the file
@@ -212,12 +226,16 @@ nnoremap <leader>v :vert sfind
 " nnoremap <leader>gg :vimgrep // **/*.py \| clist \| call feedkeys(":cc ")<C-R>=setcmdpos(10)<CR><BS>
 nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
+nnoremap <leader>cp :let @" = expand("%")<CR>
 
 " nmap <leader>gd :Gvdiffsplit  " (!)
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
+nmap <leader>ggn :GitGutterNextHunk<CR>
 
+" Use Ctrl-L for Forward motion when browsing. Ctrl-I == Tab for Vim
 nnoremap <C-l> <C-i>
+
 inoremap <C-Space> <C-x><C-o>
 inoremap <C-@> <C-Space>
 
@@ -231,32 +249,10 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
-" " resize window CTRL+(h|j|k|l)
-" noremap <C-j> :resize +1<CR>
-" noremap <C-k> :resize -1<CR>
-" noremap <C-h> :vertical resize -1<CR>
-" noremap <C-l> :vertical resize +1<CR>
-
-" nmap <silent><Leader>f <Esc>:Pytest file<CR>
-" nmap <silent><Leader>c <Esc>:Pytest class<CR>
-" nmap <silent><Leader>m <Esc>:Pytest method<CR>
-" nmap <F8> :TagbarToggle<CR>
-
-" let g:netrw_winsize = 28                " absolute width of netrw window
-" let g:netrw_banner = 0                  " do not display info on the top of window
-" let g:netrw_liststyle = 3               " tree-view
-" let g:netrw_sort_sequence = '[\/]$,*'   " sort is affecting only: directories on the top, files below
-" let g:netrw_browse_split = 4            " use the previous window to open file
-
 let g:gundo_prefer_python3 = 1
-
-let g:session_autosave="yes"
-let g:session_autoload="yes"
 
 let g:better_whitespace_enabled=1
 " let g:strip_whitespace_on_save=1
-
-" let g:hardtime_default_on = 1
 
 if has('nvim')
     set inccommand=nosplit
@@ -264,13 +260,21 @@ if has('nvim')
 endif
 
 iabbrev pdb import pdb<CR><CR>pdb.set_trace()
+iabbrev bp breakpoint()
 iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
-
-" :vertical ball
-" :ball
 
 let g:airline_section_x = ''
 let g:airline_section_z = ''
-let g:autoflake_remove_all_unused_imports = 1
 
-" source ~/.cocnvimrc
+" " nvim-lua/completion-nvim settings
+" lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
+" autocmd BufEnter * lua require'completion'.on_attach()
+" " Use <Tab> and <S-Tab> to navigate through popup menu
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" " Set completeopt to have a better completion experience
+" set completeopt=menuone,noinsert,noselect
+" " Avoid showing message extra message when using completion
+" set shortmess+=c
+" " <c-p> to manually trigger completion
+" inoremap <silent><expr> <c-p> completion#trigger_completion() 
