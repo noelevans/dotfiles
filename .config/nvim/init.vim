@@ -26,7 +26,7 @@ Plug 'rrethy/vim-illuminate'
 " Plug 'mileszs/ack.vim'
 " Plug 'liuchengxu/vista.vim'
 " Plug 'majutsushi/tagbar'
-" Plug 'psf/black', { 'tag': '19.10b0' }
+Plug 'psf/black', { 'tag': '19.10b0' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'takac/vim-hardtime'
