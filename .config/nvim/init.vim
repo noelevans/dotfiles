@@ -174,8 +174,7 @@ lua << EOF
   vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
 EOF
 
-" lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
-lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
+lua require'nvim_lsp'.jedi_language_server.setup{on_attach=require'completion'.on_attach}
 autocmd BufEnter * lua require'completion'.on_attach()
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
