@@ -34,10 +34,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
-Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
-Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lsp'   ", {'do': ':LspInstall pyls'}
 Plug 'nvim-lua/completion-nvim'
-" Plug 'nvim-lua/completion-nvim'
 
 call plug#end()
 
@@ -187,7 +185,7 @@ set completeopt=menuone,noinsert,noselect
 " Avoid showing message extra message when using completion
 set shortmess+=c
 " <c-p> to manually trigger completion
-inoremap <silent><expr> <c-p> completion#trigger_completion() 
+inoremap <silent><expr> <c-p> completion#trigger_completion()
 let mapleader="\<Space>"
 
 " :W sudo saves the file
@@ -232,7 +230,7 @@ nnoremap <leader>cp :let @" = expand("%")<CR>
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
 nmap <leader>nh :GitGutterNextHunk<CR>
-nmap <leader>ph :GitGutterPreviousHunk<CR>
+nmap <leader>ph :GitGutterPrevHunk<CR>
 
 " Use Ctrl-L for Forward motion when browsing. Ctrl-I == Tab for Vim
 nnoremap <C-l> <C-i>
@@ -260,22 +258,8 @@ if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif
 
-iabbrev pdb import pdb<CR><CR>pdb.set_trace()
 iabbrev bp breakpoint()
 iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
 
 let g:airline_section_x = ''
 let g:airline_section_z = ''
-
-" " nvim-lua/completion-nvim settings
-" lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
-" autocmd BufEnter * lua require'completion'.on_attach()
-" " Use <Tab> and <S-Tab> to navigate through popup menu
-" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" " Set completeopt to have a better completion experience
-" set completeopt=menuone,noinsert,noselect
-" " Avoid showing message extra message when using completion
-" set shortmess+=c
-" " <c-p> to manually trigger completion
-" inoremap <silent><expr> <c-p> completion#trigger_completion() 
