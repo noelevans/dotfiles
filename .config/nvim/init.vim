@@ -231,7 +231,8 @@ nnoremap <leader>cp :let @" = expand("%")<CR>
 " nmap <leader>gd :Gvdiffsplit  " (!)
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
-nmap <leader>ggn :GitGutterNextHunk<CR>
+nmap <leader>nh :GitGutterNextHunk<CR>
+nmap <leader>ph :GitGutterPreviousHunk<CR>
 
 " Use Ctrl-L for Forward motion when browsing. Ctrl-I == Tab for Vim
 nnoremap <C-l> <C-i>
