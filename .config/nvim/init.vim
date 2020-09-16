@@ -34,7 +34,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
-Plug 'neovim/nvim-lsp'   ", {'do': ':LspInstall pyls'}
+Plug 'neovim/nvim-lsp'   ", {'do': ':LspInstall pyls_ms'}
 Plug 'nvim-lua/completion-nvim'
 
 call plug#end()
@@ -168,13 +168,14 @@ augroup LuaHighlight
 augroup END
 
 
+" LSP stuff
 lua << EOF
   local nvim_lsp = require'nvim_lsp'
   -- Disable Diagnostcs globally
   vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
 EOF
 
-lua require'nvim_lsp'.jedi_language_server.setup{on_attach=require'completion'.on_attach}
+lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
 autocmd BufEnter * lua require'completion'.on_attach()
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
