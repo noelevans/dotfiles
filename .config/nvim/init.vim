@@ -6,7 +6,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-fugitive'     " Git tools
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
@@ -15,7 +15,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'sjl/gundo.vim'
 " Plug 'alfredodeza/pytest.vim'
 " Plug 'jpalardy/vim-slime'      " Copying code to another tmux pane for repl interaction
-" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-python'}
 Plug 'nanotech/jellybeans.vim'
 Plug 'morhetz/gruvbox'
 " Plug 'kalekundert/vim-coiled-snake'
@@ -23,14 +22,11 @@ Plug 'morhetz/gruvbox'
 " Plug 'xolox/vim-session'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'rrethy/vim-illuminate'
-" Plug 'mileszs/ack.vim'
 " Plug 'liuchengxu/vista.vim'
 " Plug 'majutsushi/tagbar'
 Plug 'psf/black', { 'tag': '19.10b0' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'takac/vim-hardtime'
-" Plug 'puremourning/vimspector'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
@@ -84,27 +80,13 @@ set t_vb=
 set path+=**
 set tags=tags
 set showcmd
-set undofile     " Persistent undo
 set number
-
-" Allows you to do 'gf' on config which opens config.py
-set suffixesadd=.py
-
-" Add a bit extra margin to the left
-" set foldcolumn=1
-
 set encoding=utf8
-
-" Use Unix as the standard file type
 set ffs=unix,dos,mac
-
-" Use spaces instead of tabs
+set suffixesadd=.py     " Allows you to do 'gf' on config which opens config.py
 set expandtab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
+set shiftwidth=4        " 1 tab == 4 spaces
 set tabstop=4
-
 set ai "Auto indent
 set wrap "Wrap lines
 set clipboard+=unnamedplus
