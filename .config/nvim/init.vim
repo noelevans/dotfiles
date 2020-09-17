@@ -204,7 +204,8 @@ nnoremap <leader>r :%s/<C-r><C-w>//g<Left><Left>
 nnoremap <leader>b :ls<CR>:b<Space>
 nnoremap <leader>v :vert sfind
 " nnoremap <leader>gg :vimgrep // **/*.py \| clist \| call feedkeys(":cc ")<C-R>=setcmdpos(10)<CR><BS>
-nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
+" nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
+nnoremap <leader>gg :GrepperRg <C-R><C-W>
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 nnoremap <leader>cp :let @" = expand("%")<CR>
 
@@ -241,6 +242,7 @@ if has('nvim')
 endif
 
 iabbrev bp breakpoint()
+iabbrev pdb import pdb<CR><CR>pdb.set_trace()
 iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
 
 let g:airline_section_x = ''
