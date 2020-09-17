@@ -32,6 +32,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
 Plug 'neovim/nvim-lsp'   ", {'do': ':LspInstall pyls_ms'}
 Plug 'nvim-lua/completion-nvim'
+Plug 'steelsojka/completion-buffers'
 
 call plug#end()
 
@@ -155,6 +156,13 @@ lua << EOF
   local nvim_lsp = require'nvim_lsp'
   -- Disable Diagnostcs globally
   vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
+
+  completion_chain_complete_list = {
+    { complete_items = { 'lsp' } },
+    { complete_items = { 'buffers' } },
+    { mode = { '<c-p>' } },
+    { mode = { '<c-n>' } }
+  }
 EOF
 
 lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
@@ -168,6 +176,7 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 " <c-p> to manually trigger completion
 inoremap <silent><expr> <c-p> completion#trigger_completion()
+
 let mapleader="\<Space>"
 
 " :W sudo saves the file
