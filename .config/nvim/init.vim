@@ -32,6 +32,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'tell-k/vim-autoflake'
 Plug 'neovim/nvim-lsp'   ", {'do': ':LspInstall pyls_ms'}
 Plug 'nvim-lua/completion-nvim'
+Plug 'steelsojka/completion-buffers'
 
 call plug#end()
 
@@ -155,6 +156,13 @@ lua << EOF
   local nvim_lsp = require'nvim_lsp'
   -- Disable Diagnostcs globally
   vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
+
+  completion_chain_complete_list = {
+    { complete_items = { 'lsp' } },
+    { complete_items = { 'buffers' } },
+    { mode = { '<c-p>' } },
+    { mode = { '<c-n>' } }
+  }
 EOF
 
 lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
@@ -168,6 +176,7 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 " <c-p> to manually trigger completion
 inoremap <silent><expr> <c-p> completion#trigger_completion()
+
 let mapleader="\<Space>"
 
 " :W sudo saves the file
@@ -204,7 +213,8 @@ nnoremap <leader>r :%s/<C-r><C-w>//g<Left><Left>
 nnoremap <leader>b :ls<CR>:b<Space>
 nnoremap <leader>v :vert sfind
 " nnoremap <leader>gg :vimgrep // **/*.py \| clist \| call feedkeys(":cc ")<C-R>=setcmdpos(10)<CR><BS>
-nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
+" nnoremap <leader>gg :Grepper -tool rg -cword -noprompt
+nnoremap <leader>gg :GrepperRg <C-R><C-W>
 nnoremap <leader>f :FZF -q <C-R><C-W><CR>
 nnoremap <leader>cp :let @" = expand("%")<CR>
 
@@ -241,6 +251,7 @@ if has('nvim')
 endif
 
 iabbrev bp breakpoint()
+iabbrev pdb import pdb<CR><CR>pdb.set_trace()
 iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
 
 let g:airline_section_x = ''
