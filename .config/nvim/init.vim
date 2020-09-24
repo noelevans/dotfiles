@@ -202,7 +202,9 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 nnoremap <leader>wspace :call TrimWhitespace()<cr>
- 
+
+:command! RunTests call chansend(getmatches("term")[-1]["id"], "python -m pytest tests/<cr>")
+
 " Toggle spell checking
 map <leader>ss :setlocal spell!<cr>
 
