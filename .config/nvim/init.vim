@@ -113,7 +113,8 @@ syntax enable
 "   autocmd BufEnter *.py match OverLength /\%88v.*/
 " augroup END
 
-" autocmd BufWritePost *.py execute ':Black'
+" autocmd BufWritePre *.py execute ':Black'
+" autocmd BufWritePre *.json execute ':%!jq .'
 
 " Backup settings from
 " https://begriffs.com/posts/2019-07-19-history-use-vim.html?hn=3
