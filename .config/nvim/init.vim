@@ -10,8 +10,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
-" Plug 'mhinz/vim-startify'
 Plug 'sjl/gundo.vim'
 " Plug 'alfredodeza/pytest.vim'
 " Plug 'jpalardy/vim-slime'      " Copying code to another tmux pane for repl interaction
@@ -29,10 +29,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
-Plug 'tell-k/vim-autoflake'
 Plug 'neovim/nvim-lsp'   ", {'do': ':LspInstall pyls_ms'}
 Plug 'nvim-lua/completion-nvim'
 Plug 'steelsojka/completion-buffers'
+Plug 'neomake/neomake'
 
 call plug#end()
 
@@ -177,6 +177,7 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 " <c-p> to manually trigger completion
 inoremap <silent><expr> <c-p> completion#trigger_completion()
+let g:completion_enable_auto_hover = 0
 
 let mapleader="\<Space>"
 
@@ -253,9 +254,12 @@ if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif
 
-iabbrev bp breakpoint()
 iabbrev pdb import pdb<CR><CR>pdb.set_trace()
 iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
 
-let g:airline_section_x = ''
-let g:airline_section_z = ''
+" let g:airline_section_x = ''
+" let g:airline_section_z = ''
+let g:airline_theme = 'jellybeans'
+
+let g:neomake_python_enabled_makers=['pylint', 'mypy']
+call neomake#configure#automake('w')
