@@ -263,3 +263,4 @@ let g:airline_theme = 'jellybeans'
 
 let g:neomake_python_enabled_makers=['pylint', 'mypy']
 call neomake#configure#automake('w')
+let g:fzf_layout = { 'down':  '40%'}
