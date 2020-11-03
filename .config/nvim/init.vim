@@ -252,6 +252,7 @@ let g:better_whitespace_enabled=1
 if has('nvim')
     set inccommand=nosplit
     tnoremap <Esc> <C-\><C-n>
+    tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'   " Overriding Bash's Ctrl-R reverse search
 endif
 
 iabbrev pdb import pdb<CR><CR>pdb.set_trace()
