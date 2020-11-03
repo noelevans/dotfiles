@@ -11,6 +11,9 @@ alias ga='git add'
 alias gci='git commit'
 alias gd='git diff'
 
+# Alternative so C-r works correctly in Neovim Terminal
+bind '"\C-t":"\C-r"'
+
 export EDITOR=nvim
 export GIT_EDITOR=nvim
 export VISUAL=nvim
