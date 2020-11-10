@@ -1,6 +1,9 @@
+# Reference in .bashrc:
+# [ -r /home/noel/.bash_aliases ] && . /home/noel/.bash_aliases
+
 alias python=python3
 alias pip=pip3
-alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/dotfiles.git/ --work-tree=$HOME'
 alias vim=nvim
 
 alias gs='git status'
@@ -20,3 +23,6 @@ export VISUAL=nvim
 export DIFFPROG="nvim -d"
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
+
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
