@@ -1,7 +1,7 @@
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -29,7 +29,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
-Plug 'neovim/nvim-lsp'   ", {'do': ':LspInstall pyls_ms'}
+Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
 Plug 'nvim-lua/completion-nvim'
 Plug 'steelsojka/completion-buffers'
 Plug 'neomake/neomake'
@@ -166,7 +166,7 @@ lua << EOF
   }
 EOF
 
-lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
+lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
 autocmd BufEnter * lua require'completion'.on_attach()
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
