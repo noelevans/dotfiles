@@ -9,6 +9,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
@@ -32,7 +33,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
 Plug 'nvim-lua/completion-nvim'
 Plug 'steelsojka/completion-buffers'
-Plug 'neomake/neomake'
+Plug 'neomake/neomake'      " ALE alternative
 
 call plug#end()
 
