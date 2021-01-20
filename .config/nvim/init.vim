@@ -21,19 +21,20 @@ Plug 'morhetz/gruvbox'
 " Plug 'kalekundert/vim-coiled-snake'
 " Plug 'xolox/vim-misc'            " Dependency of vim-session
 " Plug 'xolox/vim-session'
-Plug 'ntpeters/vim-better-whitespace'
+" Plug 'ntpeters/vim-better-whitespace'
 Plug 'rrethy/vim-illuminate'
 " Plug 'liuchengxu/vista.vim'
 " Plug 'majutsushi/tagbar'
-Plug 'psf/black', { 'tag': '19.10b0' }
+Plug 'psf/black'    ", { 'tag': '19.10b0' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'gioele/vim-autoswap'
 Plug 'mhinz/vim-grepper'
-Plug 'neovim/nvim-lsp', {'do': ':LspInstall pyls'}
+Plug 'neovim/nvim-lsp', {'do': ':LspInstall jedi_language_server'}
 Plug 'nvim-lua/completion-nvim'
-Plug 'steelsojka/completion-buffers'
-Plug 'neomake/neomake'      " ALE alternative
+" Plug 'steelsojka/completion-buffers'
+" Plug 'neomake/neomake'      " ALE alternative
+Plug 'kassio/neoterm'
 
 call plug#end()
 
@@ -83,6 +84,7 @@ set path+=**
 set tags=tags
 set showcmd
 set number
+set relativenumber
 set encoding=utf8
 set ffs=unix,dos,mac
 set suffixesadd=.py     " Allows you to do 'gf' on config which opens config.py
@@ -114,7 +116,7 @@ syntax enable
 "   autocmd BufEnter *.py match OverLength /\%88v.*/
 " augroup END
 
-" autocmd BufWritePre *.py execute ':Black'
+autocmd BufWritePre *.py execute ':Black'
 " autocmd BufWritePre *.json execute ':%!jq .'
 
 " Backup settings from
@@ -155,20 +157,24 @@ augroup END
 
 " LSP stuff
 lua << EOF
-  local nvim_lsp = require'nvim_lsp'
-  -- Disable Diagnostcs globally
-  vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
-
-  completion_chain_complete_list = {
-    { complete_items = { 'lsp' } },
-    { complete_items = { 'buffers' } },
-    { mode = { '<c-p>' } },
-    { mode = { '<c-n>' } }
-  }
+  -- completion_chain_complete_list = {
+    -- { complete_items = { 'lsp' } },
+    -- { complete_items = { 'buffers' } },
+    -- { mode = { '<c-p>' } },
+    -- { mode = { '<c-n>' } }
+  -- }
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        -- delay update diagnostics
+        update_in_insert = false,
+      }
+    )
 EOF
 
-lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+lua require'lspconfig'.jedi_language_server.setup{on_attach=require'completion'.on_attach}
 autocmd BufEnter * lua require'completion'.on_attach()
+
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -247,14 +253,12 @@ nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 let g:gundo_prefer_python3 = 1
 
-let g:better_whitespace_enabled=1
+" let g:better_whitespace_enabled=1
 " let g:strip_whitespace_on_save=1
 
-if has('nvim')
-    set inccommand=nosplit
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'   " Overriding Bash's Ctrl-R reverse search
-endif
+set inccommand=nosplit
+tnoremap <Esc> <C-\><C-n>
+tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'   " Overriding Bash's Ctrl-R reverse search
 
 iabbrev pdb import pdb<CR><CR>pdb.set_trace()
 iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
@@ -263,6 +267,9 @@ iabbrev main_pytest import sys<CR>import pytest<CR><CR>pytest.main(sys.argv)
 " let g:airline_section_z = ''
 let g:airline_theme = 'jellybeans'
 
-let g:neomake_python_enabled_makers=['pylint', 'mypy']
-call neomake#configure#automake('w')
-let g:fzf_layout = { 'down':  '40%'}
+" let g:neomake_python_pylint_maker = {'args': ['-d', 'W']}
+" let g:neomake_python_enabled_makers=['pylint', 'mypy']
+" call neomake#configure#automake('w')
+let g:neoterm_default_mod='botright'
+let g:fzf_layout = {'down':  '40%'}
+let black_quiet=1
