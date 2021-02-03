@@ -4,7 +4,7 @@
 alias python=python3
 alias pip=pip3
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles.git/ --work-tree=$HOME'
-alias vim=nvim
+# alias vim=nvim
 
 alias gs='git status'
 alias gco='git checkout'
