@@ -32,6 +32,8 @@
     unhide-all = ls-files -v | grep -i ^S | cut -c 3- | xargs git update-index –no-skip-worktree 
     hidden = ! git ls-files -v | grep ‘^S’ | cut -c3-
     branches = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+    stashgrep = "!f() { for i in `git stash list --format=\"%gd\"` ; do git stash show -p $i | grep -H --label=\"$i\" \"$@\" ; done ; }; f"
+    reset-to-origin = "! git fetch origin; git reset --hard origin/master"
 [commit]
     template = ~/.gitmessage
 
