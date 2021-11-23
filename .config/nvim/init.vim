@@ -216,6 +216,7 @@ nnoremap <leader>wspace :call TrimWhitespace()<cr>
 
 " Toggle spell checking
 map <leader>ss :setlocal spell!<cr>
+map Q <Nop>
 
 nnoremap <leader>sop :source %<cr>
 " nnoremap <leader>h :set hlsearch!<cr>
