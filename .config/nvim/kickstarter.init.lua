@@ -822,12 +822,10 @@ vim.keymap.set("n", "<leader>gg", "<cmd>GrepperRg <C-R><C-W><CR>")
 vim.keymap.set("n", "Q", "<Nop>")
 vim.keymap.set("n", "<C-l>", "<C-i>")
 
--- opts = { let g:fzf_layout = { 'down':  '40%'} } },
--- vim.g.fzf_layout = { 'down':  '40%'}
+vim.g.fzf_layout = {down = "40%"}
 -- :command! -nargs=1 AG GrepperAg <args>
 -- :command! -nargs=1 RG GrepperRg <args>
 -- iabbrev pdb breakpoint()
--- let g:fzf_layout = {'down':  '40%'}
 -- let g:airline#extensions#tagbar#enabled = 1
 -- let g:airline#extensions#tagbar#flags = 'f'
 -- ctags
