@@ -802,3 +802,6 @@ vim.g.fzf_layout = {down = "40%"}
 -- let g:airline#extensions#tagbar#flags = 'f'
 -- ctags
 --
+
+vim.keymap.set("ca", "AG", "GrepperAg")
+vim.keymap.set("ca", "RG", "GrepperRg")
