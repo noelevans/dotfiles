@@ -46,10 +46,6 @@ vim.opt.updatetime = 250
 -- Displays which-key popup sooner
 vim.opt.timeoutlen = 300
 
--- Configure how new splits should be opened
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -64,6 +60,10 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 1
+
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -108,7 +108,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
+	-- "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
 	-- NOTE: Plugins can also be added by using a table,
 	-- with the first argument being the link and the following
@@ -304,7 +304,7 @@ require("lazy").setup({
 			local servers = {
 				-- clangd = {},
 				-- gopls = {},
-				-- pyright = {},
+				pyright = {},
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
@@ -555,8 +555,13 @@ require("lazy").setup({
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
-
+				options = {
+					icons_enabled = false,
+					component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
+				},
 				sections = {
+					lualine_b = { "branch", "diff" },
 					lualine_c = {
 						"filename",
 						function()
@@ -567,6 +572,7 @@ require("lazy").setup({
 							})
 						end,
 					},
+					lualine_x = { "diagnostics" },
 				},
 			})
 		end,
