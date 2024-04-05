@@ -623,3 +623,11 @@ vim.g.fzf_layout = { down = "40%" }
 
 vim.keymap.set("ca", "AG", "GrepperAg")
 vim.keymap.set("ca", "RG", "GrepperRg")
+
+vim.keymap.set("n", "<leader>ll", function()
+	local prefix = "/-/blob/"
+	local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
+	local filename = vim.fn.bufname()
+	local line = vim.api.nvim_win_get_cursor(0)[1]
+	print(prefix..branch..'/'..filename..'#L'..line)
+end)
