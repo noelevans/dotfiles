@@ -612,7 +612,7 @@ vim.keymap.set("n", "<leader>dH", function()
 end)
 vim.keymap.set("n", "<leader>td", gs.toggle_deleted)
 
-vim.keymap.set("n", "<leader>gg", "<cmd>GrepperRg <C-R><C-W><CR>")
+vim.keymap.set("n", "<leader>gg", ":GrepperRg <C-R><C-W>")
 vim.keymap.set("n", "Q", "<Nop>")
 vim.keymap.set("n", "<C-l>", "<C-i>")
 
