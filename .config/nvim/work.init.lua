@@ -143,6 +143,7 @@ require("lazy").setup({
 					hl = {
 						fg = "#c0caf5",
 						bg = "#565f89",
+						underline = false,
 					},
 				},
 			})
