@@ -124,10 +124,30 @@ require("lazy").setup({
 
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
+	"tpope/vim-jdaddy",
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
 	"mhinz/vim-grepper",
 	"navarasu/onedark.nvim",
+
+	{
+		"yamatsum/nvim-cursorline",
+		config = function()
+			require("nvim-cursorline").setup({
+				cursorline = {
+					enable = false,
+				},
+				cursorword = {
+					enable = true,
+					min_length = 1,
+					hl = {
+						fg = "#c0caf5",
+						bg = "#565f89",
+					},
+				},
+			})
+		end,
+	},
 
 	-- Here is a more advanced example where we pass configuration
 	-- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -629,5 +649,5 @@ vim.keymap.set("n", "<leader>ll", function()
 	local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
 	local filename = vim.fn.bufname()
 	local line = vim.api.nvim_win_get_cursor(0)[1]
-	print(prefix..branch..'/'..filename..'#L'..line)
+	print(prefix .. branch .. "/" .. filename .. "#L" .. line)
 end)
