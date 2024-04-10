@@ -2,7 +2,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Make line numbers default
 vim.opt.number = true
 
 -- Disable mouse
@@ -12,8 +11,6 @@ vim.opt.mouse = ""
 vim.opt.showmode = false
 
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.opt.clipboard = "unnamedplus"
 
 -- Enable break indent
@@ -91,14 +88,7 @@ require("lazy").setup({
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
 	-- "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
-	-- NOTE: Plugins can also be added by using a table,
-	-- with the first argument being the link and the following
-	-- keys can be used to configure plugin behavior/loading/etc.
-	--
 	-- Use `opts = {}` to force a plugin to be loaded.
-	--
-	--  This is equivalent to:
-	--    require('Comment').setup({})
 
 	"tpope/vim-commentary",
 	"tpope/vim-fugitive",
@@ -136,16 +126,10 @@ require("lazy").setup({
 			require("mason-lspconfig").setup({
 				handlers = {
 					function(pyright)
-						require("lspconfig")[pyright].setup({
-							settings = {
-								python = {
-									analysis = {
-										diagnosticMode = "off",
-										typeCheckingMode = "off",
-									},
-								},
-							},
-						})
+						require("lspconfig")[pyright].setup({})
+					end,
+					function(lua_ls)
+						require("lspconfig")[lua_ls].setup({})
 					end,
 				},
 			})
@@ -304,7 +288,6 @@ require("lazy").setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
--- NOEL
 local gs = package.loaded.gitsigns
 vim.keymap.set("n", "<leader>sh", gs.stage_hunk)
 vim.keymap.set("n", "<leader>uh", gs.reset_hunk)
@@ -355,3 +338,10 @@ vim.keymap.set("n", "<leader>ll", function()
 	local line = vim.api.nvim_win_get_cursor(0)[1]
 	print(prefix .. branch .. "/" .. filename .. "#L" .. line)
 end)
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+	vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
+		signs = { severity = { min = vim.diagnostic.severity.ERROR } },
+		virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
+		underline = { severity = { min = vim.diagnostic.severity.ERROR } },
+	})
