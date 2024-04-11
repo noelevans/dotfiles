@@ -30,7 +30,6 @@ vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
--- Displays which-key popup sooner
 vim.opt.timeoutlen = 300
 
 -- Sets how neovim will display certain whitespace characters in the editor.
@@ -115,9 +114,7 @@ require("lazy").setup({
 			local lsp_zero = require("lsp-zero")
 
 			lsp_zero.on_attach(function(client, bufnr)
-				-- see :help lsp-zero-keybindings
-				-- to learn the available actions
-				lsp_zero.default_keymaps({ buffer = bufnr })
+				lsp_zero.default_keymaps({ buffer = bufnr, exclude = { "gi" } })
 			end)
 
 			-- to learn how to use mason.nvim
