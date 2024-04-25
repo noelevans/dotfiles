@@ -27,10 +27,11 @@ vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
 
 -- Decrease update time
-vim.opt.updatetime = 250
+-- vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
-vim.opt.timeoutlen = 300
+-- Displays which-key popup sooner
+-- vim.opt.timeoutlen = 300
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
@@ -93,8 +94,6 @@ require("lazy").setup({
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
 	"tpope/vim-jdaddy",
-	"junegunn/fzf",
-	"junegunn/fzf.vim",
 	"mhinz/vim-grepper",
 	"navarasu/onedark.nvim",
 
@@ -134,6 +133,38 @@ require("lazy").setup({
 	},
 
 	{
+		"ibhagwan/fzf-lua",
+		dependencies = { "sharkdp/bat" },
+		config = function()
+			local fzf = require("fzf-lua")
+			fzf.setup({
+				-- "fzf-vim",
+				defaults = {
+					git_icons = false,
+					file_icons = false,
+				},
+				winopts = {
+					height = 0.6,
+					width = 1,
+					row = 1,
+					preview = {
+						default = "bat",
+						layout = "horizontal",
+						scrollbar = "float",
+					},
+				},
+				manpages = { previewer = "man_native" },
+				helptags = { previewer = "help_native" },
+				lsp = { code_actions = { previewer = "codeaction_native" } },
+				tags = { previewer = "bat" },
+				btags = { previewer = "bat" },
+				files = { fzf_opts = { ["--ansi"] = false } },
+			})
+			fzf.setup_fzfvim_cmds()
+		end,
+	},
+
+	{
 		"yamatsum/nvim-cursorline",
 		config = function()
 			require("nvim-cursorline").setup({
@@ -148,6 +179,7 @@ require("lazy").setup({
 						bg = "#565f89",
 						underline = false,
 					},
+					insert_highlighting = false,
 				},
 			})
 		end,
@@ -320,7 +352,6 @@ end)
 vim.keymap.set("n", "Q", "<Nop>")
 vim.keymap.set("n", "<C-l>", "<C-i>")
 
-vim.g.fzf_layout = { down = "40%" }
 -- :command! -nargs=1 AG GrepperAg <args>
 -- :command! -nargs=1 RG GrepperRg <args>
 -- iabbrev pdb breakpoint()
