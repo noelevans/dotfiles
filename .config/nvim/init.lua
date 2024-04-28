@@ -85,6 +85,11 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+	-- "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
+
+	-- Use `opts = {}` to force a plugin to be loaded.
+
 	"tpope/vim-commentary",
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
@@ -92,6 +97,7 @@ require("lazy").setup({
 	"mhinz/vim-grepper",
 	"navarasu/onedark.nvim",
 
+	-- LSP config
 	{
 		"VonHeikemen/lsp-zero.nvim",
 		dependencies = {
@@ -191,7 +197,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Use `opts = {}` to force a plugin to be loaded.
+	-- Here is a more advanced example where we pass configuration
 	-- options to `gitsigns.nvim`. This is equivalent to the following Lua:
 	--    require('gitsigns').setup({ ... })
 	{
@@ -240,13 +246,17 @@ require("lazy").setup({
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
 				-- python = { "isort", "black" },
+				--
+				-- You can use a sub-list to tell conform to run *until* a formatter
+				-- is found.
+				-- javascript = { { "prettierd", "prettier" } },
 			},
 		},
 	},
 
 	{
 		"folke/tokyonight.nvim",
-		priority = 1000, -- Load before all other plugins
+		priority = 1000, -- Make sure to load this before all the other start plugins.
 		init = function()
 			vim.cmd.colorscheme("tokyonight-night")
 			-- You can configure highlights by doing something like:
@@ -254,7 +264,7 @@ require("lazy").setup({
 		end,
 	},
 
-	{
+	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		opts = {
@@ -271,8 +281,17 @@ require("lazy").setup({
 			indent = { enable = true, disable = { "ruby" } },
 		},
 		config = function(_, opts)
+			-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup(opts)
+
+			-- There are additional nvim-treesitter modules that you can use to interact
+			-- with nvim-treesitter. You should go explore a few and see what interests you:
+			--
+			--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+			--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 		end,
 	},
 
@@ -306,6 +325,9 @@ require("lazy").setup({
 }, {
 	ui = {},
 })
+
+-- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
 
 local gs = package.loaded.gitsigns
 vim.keymap.set("n", "<leader>sh", gs.stage_hunk)
@@ -342,10 +364,9 @@ end)
 vim.keymap.set("n", "Q", "<Nop>")
 vim.keymap.set("n", "<C-l>", "<C-i>")
 
-vim.cmd([[
-	inoreabbrev pdb breakpoint()
-	inoreabbrev dbr debugger;
-]])
+-- :command! -nargs=1 AG GrepperAg <args>
+-- :command! -nargs=1 RG GrepperRg <args>
+-- iabbrev pdb breakpoint()
 
 vim.keymap.set("ca", "AG", "GrepperAg")
 vim.keymap.set("ca", "RG", "GrepperRg")
