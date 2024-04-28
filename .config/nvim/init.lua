@@ -107,6 +107,7 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/nvim-cmp",
 			"L3MON4D3/LuaSnip",
+			"hrsh7th/cmp-buffer",
 		},
 		branch = "v3.x",
 		config = function()
@@ -129,6 +130,15 @@ require("lazy").setup({
 					function(lua_ls)
 						require("lspconfig")[lua_ls].setup({})
 					end,
+				},
+			})
+			local cmp = require("cmp")
+			cmp.setup({
+				sources = {
+					{ name = "path" },
+					{ name = "nvim_lsp" },
+					{ name = "luasnip", keyword_length = 2 },
+					{ name = "buffer", keyword_length = 3 },
 				},
 			})
 		end,
@@ -370,9 +380,15 @@ vim.keymap.set("n", "<leader>ll", function()
 	print(prefix .. branch .. "/" .. filename .. "#L" .. line)
 end)
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-	vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
-		signs = { severity = { min = vim.diagnostic.severity.ERROR } },
-		virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
-		underline = { severity = { min = vim.diagnostic.severity.ERROR } },
-	})
+vim.diagnostic.config({
+	update_in_insert = false,
+	underline = false,
+	virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
+	signs = { severity = { min = vim.diagnostic.severity.ERROR } },
+})
+-- vim.lsp.handlers["textDocument/publishDiagnostics"] =
+-- 	vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
+-- 		signs = { severity = { min = vim.diagnostic.severity.ERROR } },
+-- 		virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
+-- 		underline = { severity = { min = vim.diagnostic.severity.ERROR } },
+-- 	})
