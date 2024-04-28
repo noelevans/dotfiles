@@ -113,7 +113,9 @@ require("lazy").setup({
 			local lsp_zero = require("lsp-zero")
 
 			lsp_zero.on_attach(function(client, bufnr)
-				lsp_zero.default_keymaps({ buffer = bufnr, exclude = { "gi" } })
+				-- see :help lsp-zero-keybindings
+				-- to learn the available actions
+				lsp_zero.default_keymaps({ buffer = bufnr })
 			end)
 
 			-- to learn how to use mason.nvim
@@ -360,7 +362,8 @@ vim.keymap.set("ca", "AG", "GrepperAg")
 vim.keymap.set("ca", "RG", "GrepperRg")
 
 vim.keymap.set("n", "<leader>ll", function()
-	local prefix = "/-/blob/"
+	company = require("company")
+	local prefix = company.base .. "/-/blob/"
 	local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
 	local filename = vim.fn.bufname()
 	local line = vim.api.nvim_win_get_cursor(0)[1]
