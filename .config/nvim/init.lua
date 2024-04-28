@@ -136,7 +136,7 @@ require("lazy").setup({
 
 	{
 		"ibhagwan/fzf-lua",
-		dependencies = { "sharkdp/bat" },
+		-- dependencies = { "sharkdp/bat" },
 		config = function()
 			local fzf = require("fzf-lua")
 			fzf.setup({
@@ -167,7 +167,7 @@ require("lazy").setup({
 	},
 
 	{
-		"yamatsum/nvim-cursorline",
+		"noelevans/nvim-cursorline",
 		config = function()
 			require("nvim-cursorline").setup({
 				cursorline = {
