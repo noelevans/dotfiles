@@ -52,8 +52,8 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
--- Set highlight on search, but clear on pressing <Esc> in normal mode
-vim.opt.hlsearch = true
+-- Don't highlight search by default
+vim.opt.hlsearch = false
 vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<CR>")
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
