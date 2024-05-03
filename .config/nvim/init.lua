@@ -364,9 +364,8 @@ end)
 vim.keymap.set("n", "Q", "<Nop>")
 vim.keymap.set("n", "<C-l>", "<C-i>")
 
--- :command! -nargs=1 AG GrepperAg <args>
--- :command! -nargs=1 RG GrepperRg <args>
--- iabbrev pdb breakpoint()
+vim.cmd([[ iabbrev pdb breakpoint() ]])
+vim.cmd([[ iabbrev tpdb from nose.tools import set_trace; set_trace() ]])
 
 vim.keymap.set("ca", "AG", "GrepperAg")
 vim.keymap.set("ca", "RG", "GrepperRg")
