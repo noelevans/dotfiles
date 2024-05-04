@@ -308,12 +308,22 @@ require("lazy").setup({
 				sections = {
 					lualine_b = { "branch", "diff" },
 					lualine_c = {
-						"filename",
+						{
+							"filename",
+							path = 3,
+						},
 						function()
 							return require("nvim-treesitter").statusline({
-								indicator_size = 70,
+								transform_fn = function(line)
+									return line:gsub("%s*[%[%(%{]*%s*$", "")
+										:gsub("class ", "")
+										:gsub("^def ", "")
+										:gsub("%(.*%)", "")
+										:gsub(":", "")
+								end,
+								-- indicator_size = 100,
 								type_patterns = { "class", "function", "method" },
-								separator = " -> ",
+								-- separator = " -> ",
 							})
 						end,
 					},
