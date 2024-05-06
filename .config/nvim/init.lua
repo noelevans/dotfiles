@@ -150,7 +150,9 @@ require("lazy").setup({
 		config = function()
 			local fzf = require("fzf-lua")
 			fzf.setup({
-				-- "fzf-vim",
+				fzf_opts = {
+					["--layout"] = "reverse-list",
+				},
 				defaults = {
 					git_icons = false,
 					file_icons = false,
