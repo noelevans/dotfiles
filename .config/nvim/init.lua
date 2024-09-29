@@ -87,12 +87,21 @@ require("lazy").setup({
 
 	-- Use `opts = {}` to force a plugin to be loaded.
 
-	"tpope/vim-commentary",
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
 	"tpope/vim-jdaddy",
 	"mhinz/vim-grepper",
 	"navarasu/onedark.nvim",
+
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim",         -- required
+			"sindrets/diffview.nvim",        -- optional - Diff integration
+			"ibhagwan/fzf-lua",              -- optional
+		},
+		config = true
+	},
 
 	-- LSP config
 	{
@@ -155,13 +164,11 @@ require("lazy").setup({
 					file_icons = false,
 				},
 				winopts = {
-					height = 0.6,
-					width = 1,
-					row = 1,
+					split = "belowright new",
 					preview = {
 						default = "bat",
 						layout = "horizontal",
-						scrollbar = "float",
+						-- scrollbar = "float",
 					},
 				},
 				manpages = { previewer = "man_native" },
@@ -169,7 +176,8 @@ require("lazy").setup({
 				lsp = { code_actions = { previewer = "codeaction_native" } },
 				tags = { previewer = "bat" },
 				btags = { previewer = "bat" },
-				files = { fzf_opts = { ["--ansi"] = false } },
+				files = {
+				   	fzf_opts = { ["--ansi"] = false } },
 			})
 			fzf.setup_fzfvim_cmds()
 		end,
@@ -251,6 +259,16 @@ require("lazy").setup({
 				-- javascript = { { "prettierd", "prettier" } },
 			},
 		},
+	},
+
+	{
+		"catppuccin/nvim",
+		-- priority = 1000, -- Make sure to load this before all the other start plugins.
+		init = function()
+			-- vim.cmd.colorscheme("tokyonight-night")
+			-- You can configure highlights by doing something like:
+			vim.cmd.hi("Comment gui=none")
+		end,
 	},
 
 	{
