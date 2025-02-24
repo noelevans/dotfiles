@@ -92,6 +92,7 @@ require("lazy").setup({
 	"tpope/vim-fugitive",
 	"mhinz/vim-grepper",
 	"tpope/vim-commentary",
+	"tpope/vim-jdaddy",
 
 	{
 		'tzachar/local-highlight.nvim',
