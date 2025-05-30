@@ -608,6 +608,7 @@ vim.cmd([[ iabbrev tpdb from nose.tools import set_trace; set_trace() ]])
 
 vim.keymap.set("ca", "AG", "GrepperAg")
 vim.keymap.set("ca", "RG", "GrepperRg")
+vim.keymap.set("n", "<leader>c", "<CR>:cclose<CR>", {noremap = true, silent = true})
 
 vim.keymap.set("n", "<leader>ll", function()
 	company = require("company")
